@@ -63,7 +63,7 @@ def train(model, loss_criterion, use_cuda, train_loader, optimizer, epoch, hook)
         loss = loss_criterion(output, target)
         loss.backward()
         optimizer.step()
-        if batch_idx % 100 == 0:
+        if batch_idx % 100 == 0 or 100*batch_idx == len(train_loader):
             print(
                     "Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}".format(
                         epoch,
@@ -84,7 +84,7 @@ def net():
     num_features=model.fc.in_features
     
     model.fc = nn.Sequential(
-                   nn.Linear(num_features, 133))
+                   nn.Linear(num_features, 5))
 
     return model
 
@@ -97,7 +97,7 @@ def main(args):
         model.cuda()
     
     loss_criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(model.fc.parameters(), lr=0.001, momentum=0.9)
+    optimizer = optim.SGD(model.fc.parameters(), lr=args.lr, momentum=args.momentum)
     
     training_transform = transforms.Compose([
         transforms.RandomResizedCrop(224), 
@@ -154,13 +154,13 @@ if __name__=='__main__':
         type=int,
         default=2,
         metavar="N",
-        help="number of epochs to train (default: 10)",
+        help="number of epochs to train (default: 2)",
     )
     parser.add_argument(
         "--lr", type=float, default=0.01, metavar="LR", help="learning rate (default: 0.01)"
     )
     parser.add_argument(
-        "--momentum", type=float, default=0.5, metavar="M", help="SGD momentum (default: 0.5)"
+        "--momentum", type=float, default=0.9, metavar="M", help="SGD momentum (default: 0.9)"
     )
     
     parser.add_argument('--train', type=str, default=os.environ['SM_CHANNEL_TRAIN'])
