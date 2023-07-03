@@ -1,5 +1,3 @@
-#TODO: Import your dependencies.
-#For instance, below are some dependencies you might need if you are using Pytorch
 import numpy as np
 import torch
 import torch.nn as nn
@@ -21,7 +19,6 @@ from smdebug import modes
 from smdebug.profiler.utils import str2bool
 from smdebug.pytorch import get_hook
 
-#TODO: Import dependencies for Debugging andd Profiling
 
 def test(model, loss_criterion, use_cuda, test_loader, hook):
     
@@ -63,7 +60,7 @@ def train(model, loss_criterion, use_cuda, train_loader, optimizer, epoch, hook)
         loss = loss_criterion(output, target)
         loss.backward()
         optimizer.step()
-        if batch_idx % 100 == 0 or 100*batch_idx == len(train_loader):
+        if batch_idx % 100 == 0:
             print(
                     "Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}".format(
                         epoch,
@@ -72,7 +69,17 @@ def train(model, loss_criterion, use_cuda, train_loader, optimizer, epoch, hook)
                         100.0 * batch_idx / len(train_loader),
                         loss.item(),
                     )
-                )  
+                )
+        if batch_idx == 130:
+            print(
+                    "Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}".format(
+                        epoch,
+                        8350,
+                        len(train_loader.dataset),
+                        100.0 * ((batch_idx + 1) / len(train_loader)),
+                        loss.item(),
+                    )
+                )
                 
 def net():
     
