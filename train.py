@@ -1,5 +1,3 @@
-#TODO: Import your dependencies.
-#For instance, below are some dependencies you might need if you are using Pytorch
 import numpy as np
 import torch
 import torch.nn as nn
@@ -26,8 +24,8 @@ def test(model, loss_criterion, use_cuda, test_loader):
             if use_cuda:
                 data, target = data.cuda(), target.cuda()
             output = model(data)
-            test_loss += loss_criterion(output, target).item()  # sum up batch loss
-            pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
+            test_loss += loss_criterion(output, target).item()
+            pred = output.argmax(dim=1, keepdim=True)
             correct += pred.eq(target.view_as(pred)).sum().item()
 
     test_loss /= len(test_loader.dataset)
@@ -63,6 +61,17 @@ def train(model, loss_criterion, use_cuda, train_loader, optimizer, epoch):
                         loss.item(),
                     )
                 )
+        if batch_idx == 130:
+            print(
+                    "Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}".format(
+                        epoch,
+                        8350,
+                        len(train_loader.dataset),
+                        100.0 * ((batch_idx + 1) / len(train_loader)),
+                        loss.item(),
+                    )
+                )
+            
 def net():
 
     model = models.resnet50(pretrained=True)
@@ -71,18 +80,12 @@ def net():
         param.requires_grad = False 
 
     num_features=model.fc.in_features
-    
+
     model.fc = nn.Sequential(
-                   nn.Linear(num_features, 133))
+                   nn.Linear(num_features, 5))
 
     return model
 
-#def create_data_loaders(data, batch_size):
-#    '''
-#    This is an optional function that you may or may not need to implement
-#    depending on whether you need to use data loaders or not
-#    '''
-#    pass
 
 def main(args):
 
@@ -92,7 +95,7 @@ def main(args):
         model.cuda()
 
     loss_criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(model.fc.parameters(), lr=0.001, momentum=0.9)
+    optimizer = optim.SGD(model.fc.parameters(), lr=args.lr, momentum=0.9)
 
     training_transform = transforms.Compose([
         transforms.RandomResizedCrop(224), 
