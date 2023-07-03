@@ -83,7 +83,7 @@ def net():
     num_features=model.fc.in_features
     
     model.fc = nn.Sequential(
-                   nn.Linear(num_features, 133))
+                   nn.Linear(num_features, 5))
 
     return model
 
@@ -96,21 +96,20 @@ def main(args):
         model.cuda()
     
     loss_criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(model.fc.parameters(), lr=0.001, momentum=0.9)
+    optimizer = optim.SGD(model.fc.parameters(), lr=args.lr, momentum=0.9)
     
     training_transform = transforms.Compose([
         transforms.RandomResizedCrop(224), 
         transforms.RandomHorizontalFlip(),
-        transforms.RandomRotation(15),
         transforms.ToTensor(),
-        transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ])
 
     testing_transform = transforms.Compose([
         transforms.Resize(256),
         transforms.CenterCrop(224),
         transforms.ToTensor(),
-        transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ])
     
 
