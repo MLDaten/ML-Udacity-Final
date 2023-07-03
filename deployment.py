@@ -26,7 +26,7 @@ def Net():
     num_features=model.fc.in_features
 
     model.fc = nn.Sequential(
-                   nn.Linear(num_features, 133))
+                   nn.Linear(num_features, 5))
     return model
 
 
