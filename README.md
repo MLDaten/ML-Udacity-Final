@@ -41,7 +41,7 @@ Class|Description|Total number of images|Images for training|Images for testing|
 
 The following function allows download the subset to a local folder (train_data)
 
-<code>
+```python
     def download_and_arrange_data():
         s3_client = boto3.client('s3')
 
@@ -57,12 +57,12 @@ The following function allows download the subset to a local folder (train_data)
                 file_name=os.path.basename(file_path).split('.')[0]+'.jpg'
                 s3_client.download_file('aft-vbi-pds', os.path.join('bin-images', file_name),
                                  os.path.join(directory, file_name))
-</code>
+```
 
 
 After split the subset in train and test datasets, they are uploa toa s3 bucket, for making the available to the training algorithms
 
-<code>
+```python
     sagemaker_session = sagemaker.Session()
 
     bucket = sagemaker_session.default_bucket()
@@ -74,7 +74,7 @@ After split the subset in train and test datasets, they are uploa toa s3 bucket,
 
     test = sagemaker_session.upload_data(path="test", bucket=bucket, key_prefix=prefix2)
     print("test: {}".format(test))
-</code>    
+```   
 
 
 ## Model Training
