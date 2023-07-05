@@ -1,10 +1,18 @@
-**NOTE:** This file is a template that you can use to create the README for your project. The **TODO** comments below will highlight the information you should be sure to include.
+# Capstone Project: Inventory Monitoring at Distribution Centers
 
-# Your Project Title Here
+Knowing exactly the count of a physical inventory has been a key issue in all industries that are involved in manufacturing and retail processes. Historically, this is a job that warehouse managers and supply chain professionals have performed through cycle counting, an audit process for managing inventory counts.
 
-**TODO:** Write a short introduction to your project.
+In this notebook, a solution for object counting based in Machine Learning,is presented. The solution uses the Pytorch framework available from AWS SageMaker. The goal is to deploy a SageMaker endpoint that will query images to get predictions about the number of objects in the submitted image.
 
 ## Project Set Up and Installation
+
+If you want to set up this project in AWS you need to follow the steps below:
+
+1. Open Amazon SageMaker from AWS Main Console
+
+![alt text](Images/Step1.png "Amazon SageMaker ")
+
+
 **OPTIONAL:** If your project has any special installation steps, this is where you should put it. To turn this project into a professional portfolio project, you are encouraged to make your `README` detailed and self-explanatory. For instance, here you could explain how to set up your project in AWS and provide helpful screenshots of the process.
 
 ## Dataset
