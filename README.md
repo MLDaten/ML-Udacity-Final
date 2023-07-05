@@ -42,38 +42,38 @@ Class|Description|Total number of images|Images for training|Images for testing|
 The following function allows download the subset to a local folder (train_data)
 
 <code>
-def download_and_arrange_data():
-    s3_client = boto3.client('s3')
+    def download_and_arrange_data():
+        s3_client = boto3.client('s3')
 
-    with open('file_list.json', 'r') as f:
-        d=json.load(f)
+        with open('file_list.json', 'r') as f:
+            d=json.load(f)
 
-    for k, v in d.items():
-        print(f"Downloading Images with {k} objects")
-        directory=os.path.join('train_data', k)
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-        for file_path in tqdm(v):
-            file_name=os.path.basename(file_path).split('.')[0]+'.jpg'
-            s3_client.download_file('aft-vbi-pds', os.path.join('bin-images', file_name),
-                             os.path.join(directory, file_name))
+        for k, v in d.items():
+            print(f"Downloading Images with {k} objects")
+            directory=os.path.join('train_data', k)
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            for file_path in tqdm(v):
+                file_name=os.path.basename(file_path).split('.')[0]+'.jpg'
+                s3_client.download_file('aft-vbi-pds', os.path.join('bin-images', file_name),
+                                 os.path.join(directory, file_name))
 </code>
 
 
 After split the subset in train and test datasets, they are uploa toa s3 bucket, for making the available to the training algorithms
 
 <code>
-sagemaker_session = sagemaker.Session()
+    sagemaker_session = sagemaker.Session()
 
-bucket = sagemaker_session.default_bucket()
-prefix1 = "sagemaker/Final-Project/train"
-prefix2 = "sagemaker/Final-Project/test"
+    bucket = sagemaker_session.default_bucket()
+    prefix1 = "sagemaker/Final-Project/train"
+    prefix2 = "sagemaker/Final-Project/test"
 
-train = sagemaker_session.upload_data(path="train", bucket=bucket, key_prefix=prefix1)
-print("train: {}".format(train))
+    train = sagemaker_session.upload_data(path="train", bucket=bucket, key_prefix=prefix1)
+    print("train: {}".format(train))
 
-test = sagemaker_session.upload_data(path="test", bucket=bucket, key_prefix=prefix2)
-print("test: {}".format(test))
+    test = sagemaker_session.upload_data(path="test", bucket=bucket, key_prefix=prefix2)
+    print("test: {}".format(test))
 </code>    
 
 
